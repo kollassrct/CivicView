@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started - CIVICVIEW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50/20 via-background to-green-50/20">
+    <!-- Header -->
+    <header class="bg-white/80 border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo Section -->
+                <button onclick="window.location.href='index.html'" class="flex items-center space-x-4 group" aria-label="CIVICVIEW Home">
+                    <div class="w-12 h-12 rounded-[20px] flex items-center justify-center shadow-sm group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <!-- Replace with your logo image: <img src="./assets/civicview-logo.png" alt="CIVICVIEW" class="h-8 w-8" /> -->
+                        <span class="text-blue-600 font-bold text-xl">CV</span>
+                    </div>
+                    <span class="text-2xl tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                        CIVICVIEW
+                    </span>
+                </button>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center space-x-2">
+                    <button onclick="window.location.href='index.html'" class="px-6 py-3 rounded-lg transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+                        Home
+                    </button>
+                    <button onclick="window.location.href='aboutus.html'" class="px-6 py-3 rounded-lg transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+                        About us
+                    </button>
+                    <button onclick="window.location.href='contactus.html'" class="px-6 py-3 rounded-lg transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+                        Contact us
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu -->
+                <div class="md:hidden">
+                    <button onclick="window.location.href='index.html'" class="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg">
+                        Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Portal Selection Section -->
+        <section id="portalSelection" class="min-h-screen pt-20 pb-16 px-6 lg:px-8 bg-gradient-to-br from-blue-50/40 via-background to-green-50/40">
+            <div class="max-w-4xl mx-auto">
+                <!-- Header -->
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+                        Get Started with CIVICVIEW
+                    </h1>
+                    <p id="headerDescription" class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        Choose your portal to access CIVICVIEW's civic reporting and management system.
+                    </p>
+                </div>
+
+                <!-- Portal Selection -->
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Citizen Portal -->
+                    <div class="portal-card group cursor-pointer border-2 border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 bg-white rounded-2xl p-8 text-center" onclick="selectPortal('citizen')">
+                        <div class="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="users" class="w-10 h-10 text-blue-600"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Citizen Portal</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Report civic issues, track complaints, and stay updated on resolutions in your locality.
+                        </p>
+                        
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                                Report civic issues instantly
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                                Track complaint status
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                                Get real-time updates
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                                Community issue feed
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 rounded-lg font-medium transition-all duration-300">
+                            Access Citizen Portal
+                        </button>
+                    </div>
+
+                    <!-- Admin Portal -->
+                    <div class="portal-card group cursor-pointer border-2 border-gray-200 hover:border-green-300 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 bg-white rounded-2xl p-8 text-center" onclick="selectPortal('admin')">
+                        <div class="w-20 h-20 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="shield" class="w-10 h-10 text-green-600"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Admin Portal</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Manage civic issues, assign tasks to departments, and monitor resolution progress.
+                        </p>
+                        
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-center text-sm text-gray-600">
+                                <div class="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                                Manage all civic reports
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <div class="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                                Assign tasks to departments
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <div class="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                                Monitor resolution progress
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <div class="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                                Generate analytics reports
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-3 rounded-lg font-medium transition-all duration-300">
+                            Access Admin Portal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Authentication Forms Section -->
+        <section id="authForms" class="hidden min-h-screen pt-20 pb-16 px-6 lg:px-8 bg-gradient-to-br from-blue-50/40 via-background to-green-50/40">
+            <div class="max-w-md mx-auto">
+                <!-- Back Button -->
+                <button onclick="goBack()" class="mb-8 text-gray-600 hover:text-gray-900 flex items-center space-x-2">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span>Back to portal selection</span>
+                </button>
+
+                <!-- Portal Card -->
+                <div class="border-2 border-gray-200 shadow-xl bg-white rounded-2xl p-8">
+                    <!-- Portal Header -->
+                    <div class="text-center mb-8">
+                        <div id="portalIcon" class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-blue-100">
+                            <i data-lucide="users" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        
+                        <h2 id="portalTitle" class="text-2xl font-bold text-gray-900 mb-2">
+                            Citizen Portal
+                        </h2>
+                        <p id="portalDescription" class="text-gray-600">
+                            Access your citizen dashboard
+                        </p>
+                    </div>
+
+                    <!-- Tab Navigation -->
+                    <div class="flex bg-gray-100 rounded-lg p-1 mb-8">
+                        <button id="loginTab" onclick="switchTab('login')" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 bg-white text-gray-900 shadow-sm">
+                            Login
+                        </button>
+                        <button id="signupTab" onclick="switchTab('signup')" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 text-gray-500 hover:text-gray-700">
+                            Sign Up
+                        </button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="loginForm" class="space-y-6">
+                        <div id="adminEmployeeField" class="hidden">
+                            <label for="employeeId" class="block text-sm font-medium text-gray-700 mb-1">Employee ID</label>
+                            <input type="text" id="employeeId" placeholder="Enter your employee ID" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        </div>
+                        
+                        <div>
+                            <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="loginEmail" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" required>
+                        </div>
+                        
+                        <div>
+                            <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <div class="relative">
+                                <input type="password" id="loginPassword" placeholder="Enter your password" class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" required>
+                                <button type="button" onclick="togglePassword('loginPassword', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                    <i data-lucide="eye" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" id="loginSubmitBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 rounded-lg font-medium transition-all duration-300">
+                            Login to Citizen Portal
+                        </button>
+                    </form>
+
+                    <!-- Signup Form -->
+                    <form id="signupForm" class="hidden space-y-6">
+                        <div>
+                            <label for="signupEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="signupEmail" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" required>
+                        </div>
+                        
+                        <div>
+                            <label for="signupPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <div class="relative">
+                                <input type="password" id="signupPassword" placeholder="Create a password" class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" required>
+                                <button type="button" onclick="togglePassword('signupPassword', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                    <i data-lucide="eye" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                            <div class="relative">
+                                <input type="password" id="confirmPassword" placeholder="Confirm your password" class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" required>
+                                <button type="button" onclick="togglePassword('confirmPassword', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                    <i data-lucide="eye" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" id="signupSubmitBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 rounded-lg font-medium transition-all duration-300">
+                            Create Citizen Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Update form styling and labels based on selected portal
+        function selectPortal(portalType) {
+            currentPortal = portalType;
+            
+            const portalSelection = document.getElementById('portalSelection');
+            const authForms = document.getElementById('authForms');
+            const portalIcon = document.getElementById('portalIcon');
+            const portalTitle = document.getElementById('portalTitle');
+            const portalDescription = document.getElementById('portalDescription');
+            const adminEmployeeField = document.getElementById('adminEmployeeField');
+            const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+            const signupSubmitBtn = document.getElementById('signupSubmitBtn');
+            
+            if (portalSelection && authForms) {
+                portalSelection.classList.add('hidden');
+                authForms.classList.remove('hidden');
+            }
+            
+            if (portalIcon && portalTitle && portalDescription) {
+                if (portalType === 'citizen') {
+                    portalIcon.innerHTML = '<i data-lucide="users" class="w-8 h-8 text-blue-600"></i>';
+                    portalIcon.className = 'w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4';
+                    portalTitle.textContent = 'Citizen Portal';
+                    portalDescription.textContent = 'Access your citizen dashboard';
+                    if (adminEmployeeField) adminEmployeeField.classList.add('hidden');
+                    if (loginSubmitBtn) loginSubmitBtn.textContent = 'Login to Citizen Portal';
+                    if (signupSubmitBtn) signupSubmitBtn.textContent = 'Create Citizen Account';
+                    
+                    // Update button colors to blue
+                    if (loginSubmitBtn) {
+                        loginSubmitBtn.className = 'w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 rounded-lg font-medium transition-all duration-300';
+                    }
+                    if (signupSubmitBtn) {
+                        signupSubmitBtn.className = 'w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 rounded-lg font-medium transition-all duration-300';
+                    }
+                } else {
+                    portalIcon.innerHTML = '<i data-lucide="shield" class="w-8 h-8 text-green-600"></i>';
+                    portalIcon.className = 'w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4';
+                    portalTitle.textContent = 'Admin Portal';
+                    portalDescription.textContent = 'Access administrative dashboard';
+                    if (adminEmployeeField) adminEmployeeField.classList.remove('hidden');
+                    if (loginSubmitBtn) loginSubmitBtn.textContent = 'Login to Admin Portal';
+                    if (signupSubmitBtn) signupSubmitBtn.textContent = 'Create Admin Account';
+                    
+                    // Update button colors to green
+                    if (loginSubmitBtn) {
+                        loginSubmitBtn.className = 'w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-3 rounded-lg font-medium transition-all duration-300';
+                    }
+                    if (signupSubmitBtn) {
+                        signupSubmitBtn.className = 'w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-3 rounded-lg font-medium transition-all duration-300';
+                    }
+                }
+                
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+            
+            // Reset forms
+            resetAuthForms();
+        }
+    </script>
+</body>
+</html>

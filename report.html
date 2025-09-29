@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Issue - CIVICVIEW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50/20 via-background to-green-50/20">
+    <!-- Header -->
+    <header class="bg-white/80 border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo Section -->
+                <button onclick="setCurrentPage('home')" class="flex items-center space-x-4 group" aria-label="CIVICVIEW Home">
+                    <div class="w-12 h-12 rounded-[20px] flex items-center justify-center shadow-sm group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <img src="./assets/logo.png" alt="CIVICVIEW" class="h-8 w-8" />
+                    </div>
+                    <span class="text-2xl tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                        CIVICVIEW
+                    </span>
+                </button>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center space-x-2">
+                    <button onclick="setCurrentPage('home')" class="px-6 py-3 rounded-lg transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+                        Home
+                    </button>
+                    <button onclick="setCurrentPage('about')" class="px-6 py-3 rounded-lg transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+                        About us
+                    </button>
+                    <button onclick="setCurrentPage('contact')" class="px-6 py-3 rounded-lg transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+                        Contact us
+                    </button>
+                </nav>
+
+                <!-- Actions -->
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.location.href='citizen.html'" class="text-blue-600 hover:text-blue-800 transition-colors font-medium flex items-center space-x-2">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        <span class="hidden md:inline">Back to Dashboard</span>
+                        <span class="md:hidden">Back</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+            <!-- Progress Steps -->
+            <div class="mb-8">
+                <div class="flex items-center justify-center">
+                    <div class="step-indicator active" id="step1-indicator">1</div>
+                    <div class="step-line" id="step1-line"></div>
+                    <div class="step-indicator" id="step2-indicator">2</div>
+                    <div class="step-line" id="step2-line"></div>
+                    <div class="step-indicator" id="step3-indicator">3</div>
+                </div>
+                <div class="flex justify-between mt-2 text-sm text-gray-600">
+                    <span>Issue Details</span>
+                    <span>Location & Priority</span>
+                    <span>Review & Submit</span>
+                </div>
+            </div>
+
+            <!-- Form Card -->
+            <div class="bg-white rounded-2xl shadow-xl fade-in">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-100 to-green-100 rounded-xl flex items-center justify-center">
+                            <i data-lucide="camera" class="w-6 h-6 text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">Report a Civic Issue</h1>
+                            <p class="text-gray-600">Help improve your community by reporting local issues</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="reportForm" class="p-6">
+                    <!-- Step 1: Issue Details -->
+                    <div class="form-step active" id="step1">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">What issue would you like to report?</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Issue Title -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Issue Title *</label>
+                                <input type="text" 
+                                       id="title" 
+                                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                       placeholder="Brief description of the issue"
+                                       required>
+                                <p class="text-sm text-gray-500 mt-1">Be specific and concise (e.g., "Large pothole on MG Road")</p>
+                            </div>
+
+                            <!-- Category -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                                <select id="category" 
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                        required>
+                                    <option value="">Select a category</option>
+                                    <option value="road-potholes">Road & Potholes</option>
+                                    <option value="street-lighting">Street Lighting</option>
+                                    <option value="waste-management">Waste Management</option>
+                                    <option value="water-drainage">Water & Drainage</option>
+                                    <option value="public-safety">Public Safety</option>
+                                    <option value="other-civic-issues">Other Civic Issues</option>
+                                </select>
+                            </div>
+
+                            <!-- Description -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Detailed Description *</label>
+                                <textarea id="description" 
+                                          rows="4"
+                                          class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                          placeholder="Provide detailed information about the issue..."
+                                          required></textarea>
+                                <p class="text-sm text-gray-500 mt-1">Include relevant details like size, duration, impact, etc.</p>
+                            </div>
+
+                            <!-- Image Upload -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Upload Photo (Optional)</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors">
+                                    <input type="file" 
+                                           id="imageUpload" 
+                                           accept="image/*"
+                                           class="hidden"
+                                           onchange="handleImageUpload(event)">
+                                    <div id="uploadArea" onclick="document.getElementById('imageUpload').click()" class="cursor-pointer">
+                                        <i data-lucide="upload" class="w-8 h-8 text-gray-400 mx-auto mb-2"></i>
+                                        <p class="text-gray-600">Click to upload an image</p>
+                                        <p class="text-sm text-gray-500 mt-1">PNG, JPG up to 10MB</p>
+                                    </div>
+                                    <div id="imagePreview" class="hidden">
+                                        <!-- Image preview will be shown here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end mt-8">
+                            <button type="button" onclick="nextStep()" class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-200">
+                                Next Step
+                                <i data-lucide="arrow-right" class="w-4 h-4 inline ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Location & Priority -->
+                    <div class="form-step" id="step2">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">Where is this issue located?</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Location -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Location *</label>
+                                <div class="relative">
+                                    <input type="text" 
+                                           id="location"
+                                           class="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                           placeholder="Enter the exact address or landmark"
+                                           required>
+                                    <i data-lucide="map-pin" class="w-5 h-5 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2"></i>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-1">Be as specific as possible with the location</p>
+                            </div>
+
+                            <!-- Urgency Level -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Urgency Level *</label>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <label class="flex items-center p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="radio" name="urgency" value="low" class="mr-3">
+                                        <div>
+                                            <div class="font-medium text-gray-900">Low</div>
+                                            <div class="text-sm text-gray-600">Can wait a few weeks</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="radio" name="urgency" value="medium" class="mr-3">
+                                        <div>
+                                            <div class="font-medium text-gray-900">Medium</div>
+                                            <div class="text-sm text-gray-600">Should be resolved within days</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="radio" name="urgency" value="high" class="mr-3">
+                                        <div>
+                                            <div class="font-medium text-gray-900">High</div>
+                                            <div class="text-sm text-gray-600">Needs immediate attention</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="radio" name="urgency" value="critical" class="mr-3">
+                                        <div>
+                                            <div class="font-medium text-gray-900">Critical</div>
+                                            <div class="text-sm text-gray-600">Emergency - poses immediate danger</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Additional Notes -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Additional Notes (Optional)</label>
+                                <textarea id="additionalNotes" 
+                                          rows="3"
+                                          class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                          placeholder="Any additional information that might be helpful..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-8">
+                            <button type="button" onclick="prevStep()" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition-all duration-200">
+                                <i data-lucide="arrow-left" class="w-4 h-4 inline mr-2"></i>
+                                Previous
+                            </button>
+                            <button type="button" onclick="nextStep()" class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-200">
+                                Review Report
+                                <i data-lucide="arrow-right" class="w-4 h-4 inline ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Review & Submit -->
+                    <div class="form-step" id="step3">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">Review Your Report</h2>
+                        
+                        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Issue Title</label>
+                                    <p class="text-gray-900" id="reviewTitle">-</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Category</label>
+                                    <p class="text-gray-900" id="reviewCategory">-</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Description</label>
+                                    <p class="text-gray-900" id="reviewDescription">-</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Location</label>
+                                    <p class="text-gray-900" id="reviewLocation">-</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Urgency Level</label>
+                                    <p class="text-gray-900" id="reviewUrgency">-</p>
+                                </div>
+                                <div id="reviewNotesSection" class="hidden">
+                                    <label class="block text-sm font-medium text-gray-700">Additional Notes</label>
+                                    <p class="text-gray-900" id="reviewNotes">-</p>
+                                </div>
+                                <div id="reviewImageSection" class="hidden">
+                                    <label class="block text-sm font-medium text-gray-700">Uploaded Image</label>
+                                    <img id="reviewImage" class="mt-2 rounded-lg max-w-sm" alt="Uploaded image">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                            <div class="flex items-start space-x-3">
+                                <i data-lucide="info" class="w-5 h-5 text-blue-600 mt-0.5"></i>
+                                <div class="text-sm text-blue-800">
+                                    <p class="font-medium mb-1">What happens next?</p>
+                                    <ul class="space-y-1">
+                                        <li>• Your report will be reviewed by municipal authorities</li>
+                                        <li>• You'll receive updates via SMS/WhatsApp on progress</li>
+                                        <li>• Estimated response time: 2-3 business days</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep()" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition-all duration-200">
+                                <i data-lucide="arrow-left" class="w-4 h-4 inline mr-2"></i>
+                                Previous
+                            </button>
+                            <button type="submit" 
+                                    id="submitButton"
+                                    class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-200">
+                                <i data-lucide="send" class="w-4 h-4 inline mr-2"></i>
+                                Submit Report
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" id="successModal">
+        <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="check-circle" class="w-8 h-8 text-green-600"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Report Submitted Successfully!</h3>
+            <p class="text-gray-600 mb-6">Your report has been received and will be reviewed by the relevant authorities. You'll receive updates on its progress.</p>
+            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                <p class="text-sm text-gray-600">Your Report ID:</p>
+                <p class="font-mono text-lg font-bold text-blue-600" id="reportId">CV-2024-XXX</p>
+            </div>
+            <button onclick="closeSuccessModal()" class="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-200">
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
