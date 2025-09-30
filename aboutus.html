@@ -8,44 +8,67 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50/20 via-background to-green-50/20">
+<body class="min-h-screen bg-gradient-to-br from-blue-50/30 via-white/50 to-green-50/30">
     <!-- Header -->
-    <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-8 h-8 rounded-lg flex items-center justify-center">
-                            <img src="./assets/logo.png" alt="CIVICVIEW" class="h-8 w-8" />
-                        </div>
-                        <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
-                            CIVICVIEW
-                        </span>
+    <header class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo Section -->
+                <button onclick="window.location.href='index.html'" class="flex items-center space-x-4 group" aria-label="CIVICVIEW Home">
+                    <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-green-600 rounded-[20px] flex items-center justify-center shadow-sm group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <span class="text-white font-bold text-xl">CV</span>
                     </div>
-                </div>
+                    <span class="text-2xl font-bold tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors duration-300 font-acme">
+                        CIVICVIEW
+                    </span>
+                </button>
                 
-                <nav class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">Home</a>
-                    <a href="aboutus.html" class="text-blue-600 font-medium border-b-2 border-blue-600">About</a>
-                    <a href="contactus.html" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact</a>
-                </nav>
-                
-                <div class="flex items-center space-x-4">
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center space-x-2">
+                    <button onclick="window.location.href='index.html'" class="px-6 py-3 rounded-lg transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+                        Home
+                    </button>
+                    <button onclick="window.location.href='aboutus.html'" class="px-6 py-3 rounded-lg transition-all duration-300 text-blue-600 bg-blue-50/70 shadow-sm font-medium" aria-current="page">
+                        About us
+                    </button>
+                    <button onclick="window.location.href='contactus.html'" class="px-6 py-3 rounded-lg transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+                        Contact us
+                    </button>
+                    
                     <!-- Dashboard Button (shown when logged in) -->
-                    <button id="dashboard-btn" onclick="goToDashboard()" class="px-6 py-2 rounded-lg transition-all duration-300 text-blue-600 hover:text-blue-700 hover:bg-blue-50 border border-blue-200 hidden">
+                    <button id="dashboard-btn" onclick="goToDashboard()" class="ml-6 px-6 py-3 rounded-lg transition-all duration-300 text-blue-600 hover:text-blue-700 hover:bg-blue-50 border border-blue-200 hidden">
                         <i data-lucide="layout-dashboard" class="w-4 h-4 inline mr-2"></i>
                         Dashboard
                     </button>
                     
                     <!-- Logout Button (shown when logged in) -->
-                    <button id="logout-btn" onclick="logout()" class="px-4 py-2 rounded-lg transition-all duration-300 text-red-600 hover:text-red-700 hover:bg-red-50 border border-red-200 hidden">
+                    <button id="logout-btn" onclick="logout()" class="px-4 py-3 rounded-lg transition-all duration-300 text-red-600 hover:text-red-700 hover:bg-red-50 border border-red-200 hidden">
                         <i data-lucide="log-out" class="w-4 h-4"></i>
                     </button>
                     
                     <!-- Get Started Button (shown when not logged in) -->
-                    <button id="get-started-btn" onclick="window.location.href='getstarted.html'" class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-200 font-medium">
-                        Get Started
+                    <button id="get-started-btn" onclick="redirectToGetStarted()" class="ml-6 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white shadow-sm hover:shadow-md transition-all duration-300 px-6 py-3 rounded-lg font-medium">
+                        Get started
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu -->
+                <div class="md:hidden flex items-center space-x-2">
+                    <!-- Mobile Dashboard Button -->
+                    <button id="mobile-dashboard-btn" onclick="goToDashboard()" class="px-3 py-2 rounded-lg transition-all duration-300 text-blue-600 hover:text-blue-700 hover:bg-blue-50 border border-blue-200 hidden">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                    </button>
+                    
+                    <!-- Mobile Logout Button -->
+                    <button id="mobile-logout-btn" onclick="logout()" class="px-3 py-2 rounded-lg transition-all duration-300 text-red-600 hover:text-red-700 hover:bg-red-50 border border-red-200 hidden">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                    </button>
+                    
+                    <!-- Mobile Get Started Button -->
+                    <button id="mobile-get-started-btn" onclick="redirectToGetStarted()" class="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white shadow-sm px-4 py-2 rounded-lg">
+                        Get started
                     </button>
                 </div>
             </div>
@@ -53,303 +76,287 @@
     </header>
 
     <main>
-        <!-- About Hero Section -->
-        <section class="py-20 px-4 sm:px-6 lg:px-8 fade-in">
-            <div class="max-w-4xl mx-auto text-center">
-                <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full mb-6">
-                    <i data-lucide="book-open" class="w-4 h-4"></i>
-                    <span class="font-medium">Our Story</span>
+        <!-- Hero Section -->
+        <section class="pt-20 pb-16 px-6 lg:px-8 relative overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white/80 to-green-50/50"></div>
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-200/30 to-blue-100/30 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-green-200/30 to-green-100/30 rounded-full blur-3xl"></div>
+            
+            <div class="max-w-4xl mx-auto relative text-center">
+                <div class="inline-flex items-center px-4 py-2 bg-blue-50/70 text-blue-700 rounded-full text-sm font-medium border border-blue-200/50 mb-6">
+                    <i data-lucide="info" class="w-4 h-4 mr-2"></i>
+                    About CIVICVIEW
                 </div>
-                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-                    Building India's Digital<br>
-                    <span class="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
-                        Civic Infrastructure
-                    </span>
+                
+                <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight tracking-tight mb-6">
+                    Making Indian Cities 
+                    <span class="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Better Together</span>
                 </h1>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    CIVICVIEW is revolutionizing how Indian citizens connect with local government, making civic engagement transparent, efficient, and accessible to everyone across the country.
+                
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    CIVICVIEW is a technology-driven platform that empowers citizens to report civic issues 
+                    and work together with local authorities to create positive change in their communities.
                 </p>
             </div>
         </section>
 
-        <!-- Mission & Vision -->
-        <section class="py-16 bg-white/50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow slide-up">
-                        <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
-                            <i data-lucide="target" class="w-8 h-8 text-blue-600"></i>
+        <!-- Mission Section -->
+        <section class="py-16 lg:py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-8">
+                        <div class="space-y-6">
+                            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900">
+                                Our Mission
+                            </h2>
+                            <p class="text-lg text-gray-600 leading-relaxed">
+                                We believe that every citizen has the power to make a difference in their community. 
+                                CIVICVIEW bridges the gap between citizens and local authorities, creating a transparent, 
+                                efficient, and collaborative approach to solving civic issues.
+                            </p>
+                            <p class="text-lg text-gray-600 leading-relaxed">
+                                From potholes to streetlight issues, from garbage collection problems to water logging, 
+                                we make it easy for citizens to report problems and track their resolution in real-time.
+                            </p>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Mission</h3>
-                        <p class="text-gray-700 leading-relaxed">
-                            To empower every Indian citizen with a direct voice in improving their communities through technology-driven civic engagement and transparent governance.
-                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="handleReportIssue()" class="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-4 text-lg rounded-xl group font-medium">
+                                Start Reporting
+                                <i data-lucide="arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform inline-block"></i>
+                            </button>
+                        </div>
                     </div>
                     
-                    <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow slide-up">
-                        <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
-                            <i data-lucide="eye" class="w-8 h-8 text-green-600"></i>
+                    <div class="space-y-6">
+                        <div class="bg-blue-50 rounded-2xl p-8 border border-blue-100">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                                <i data-lucide="target" class="w-6 h-6 text-blue-600"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Transparency</h3>
+                            <p class="text-gray-600">
+                                Real-time tracking and updates ensure complete transparency in the issue resolution process.
+                            </p>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Vision</h3>
-                        <p class="text-gray-700 leading-relaxed">
-                            A digitally connected India where every civic issue is heard, tracked, and resolved efficiently, creating cleaner, safer, and more livable communities for all.
+                        
+                        <div class="bg-green-50 rounded-2xl p-8 border border-green-100">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                                <i data-lucide="users" class="w-6 h-6 text-green-600"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Community</h3>
+                            <p class="text-gray-600">
+                                Building stronger communities through collaborative civic engagement and shared responsibility.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-orange-50 rounded-2xl p-8 border border-orange-100">
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                                <i data-lucide="zap" class="w-6 h-6 text-orange-600"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">Efficiency</h3>
+                            <p class="text-gray-600">
+                                Streamlined reporting and response processes that save time and resources for everyone.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="py-16 lg:py-20 bg-gray-50/50">
+            <div class="max-w-6xl mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <div class="inline-flex items-center px-4 py-2 bg-green-50/70 rounded-full border border-green-200/50 mb-6">
+                        <span class="text-sm text-green-700 font-medium">How It Works</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 mb-6">
+                        Simple Steps to Make Change
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        Reporting civic issues and tracking their resolution has never been easier.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Step 1 -->
+                    <div class="text-center">
+                        <div class="relative mb-8">
+                            <div class="w-20 h-20 bg-blue-100 rounded-2xl mx-auto flex items-center justify-center">
+                                <i data-lucide="camera" class="w-10 h-10 text-blue-600"></i>
+                            </div>
+                            <div class="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                1
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Report the Issue</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Take a photo of the civic issue, add location details, and describe the problem in a few simple steps.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="text-center">
+                        <div class="relative mb-8">
+                            <div class="w-20 h-20 bg-green-100 rounded-2xl mx-auto flex items-center justify-center">
+                                <i data-lucide="send" class="w-10 h-10 text-green-600"></i>
+                            </div>
+                            <div class="absolute -top-2 -right-2 w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                2
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Submit to Authorities</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Your report is automatically sent to the relevant Municipal Corporation or local authority for action.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="text-center">
+                        <div class="relative mb-8">
+                            <div class="w-20 h-20 bg-orange-100 rounded-2xl mx-auto flex items-center justify-center">
+                                <i data-lucide="check-circle" class="w-10 h-10 text-orange-600"></i>
+                            </div>
+                            <div class="absolute -top-2 -right-2 w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                3
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Track Progress</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Monitor the status of your report in real-time and get notified when the issue is resolved.
                         </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Platform Capabilities -->
-        <section class="py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Platform Capabilities</h2>
-                    <p class="text-lg text-gray-600">
-                        Comprehensive tools for modern civic engagement across Indian cities
+        <!-- Impact Stats -->
+        <section class="py-16 lg:py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <div class="inline-flex items-center px-4 py-2 bg-blue-50/70 rounded-full border border-blue-200/50 mb-6">
+                        <span class="text-sm text-blue-700 font-medium">Our Impact</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 mb-6">
+                        Making Real Difference
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        Together, we're creating cleaner, safer, and better communities across India.
                     </p>
                 </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                            <i data-lucide="map-pin" class="w-6 h-6 text-blue-600"></i>
-                        </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Real-time Issue Reporting</h4>
-                        <p class="text-gray-600">
-                            Citizens can instantly report civic issues with photos, location data, and detailed descriptions through our mobile-first platform.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                            <i data-lucide="eye" class="w-6 h-6 text-green-600"></i>
-                        </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Transparent Tracking</h4>
-                        <p class="text-gray-600">
-                            Every reported issue includes real-time status updates, allowing citizens to track progress from submission to resolution.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                            <i data-lucide="users" class="w-6 h-6 text-purple-600"></i>
-                        </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Community Engagement</h4>
-                        <p class="text-gray-600">
-                            Foster neighborhood collaboration through upvoting, commenting, and sharing civic issues to amplify community voices.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                            <i data-lucide="zap" class="w-6 h-6 text-orange-600"></i>
-                        </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Smart Prioritization</h4>
-                        <p class="text-gray-600">
-                            AI-powered algorithms help municipal authorities prioritize issues based on impact, urgency, and community feedback.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
-                            <i data-lucide="layout-dashboard" class="w-6 h-6 text-red-600"></i>
-                        </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Government Dashboard</h4>
-                        <p class="text-gray-600">
-                            Comprehensive administrative tools for municipal corporations to manage, assign, and track issue resolution efficiently.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
-                            <i data-lucide="bar-chart-3" class="w-6 h-6 text-teal-600"></i>
-                        </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Impact Analytics</h4>
-                        <p class="text-gray-600">
-                            Detailed reporting and analytics help measure civic improvement impact and guide policy decisions across regions.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Impact Numbers -->
-        <section class="py-16 bg-white/50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Impact Across India</h2>
-                    <p class="text-lg text-gray-600">
-                        Real numbers showcasing the difference we're making in Indian communities
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-white rounded-xl p-6 text-center shadow-sm">
-                        <div class="text-3xl md:text-4xl font-bold text-blue-600 mb-2 counter">50,000+</div>
-                        <div class="text-lg font-semibold text-gray-900 mb-1">Active Citizens</div>
-                        <p class="text-gray-600">Engaged users across major Indian cities</p>
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="file-text" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <div class="text-4xl font-bold text-gray-900 mb-2 counter" data-target="2467">0</div>
+                        <div class="text-gray-600">Issues Reported</div>
                     </div>
                     
-                    <div class="bg-white rounded-xl p-6 text-center shadow-sm">
-                        <div class="text-3xl md:text-4xl font-bold text-green-600 mb-2 counter">25,000+</div>
-                        <div class="text-lg font-semibold text-gray-900 mb-1">Issues Resolved</div>
-                        <p class="text-gray-600">Civic problems successfully addressed</p>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="check-circle" class="w-8 h-8 text-green-600"></i>
+                        </div>
+                        <div class="text-4xl font-bold text-green-600 mb-2 counter" data-target="1823">0</div>
+                        <div class="text-gray-600">Issues Resolved</div>
                     </div>
                     
-                    <div class="bg-white rounded-xl p-6 text-center shadow-sm">
-                        <div class="text-3xl md:text-4xl font-bold text-purple-600 mb-2 counter">100+</div>
-                        <div class="text-lg font-semibold text-gray-900 mb-1">Cities Connected</div>
-                        <p class="text-gray-600">Municipal corporations using our platform</p>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-orange-100 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="map-pin" class="w-8 h-8 text-orange-600"></i>
+                        </div>
+                        <div class="text-4xl font-bold text-orange-600 mb-2 counter" data-target="45">0</div>
+                        <div class="text-gray-600">Cities Covered</div>
                     </div>
                     
-                    <div class="bg-white rounded-xl p-6 text-center shadow-sm">
-                        <div class="text-3xl md:text-4xl font-bold text-orange-600 mb-2 counter">85%</div>
-                        <div class="text-lg font-semibold text-gray-900 mb-1">Resolution Rate</div>
-                        <p class="text-gray-600">Average issue resolution success rate</p>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="users" class="w-8 h-8 text-purple-600"></i>
+                        </div>
+                        <div class="text-4xl font-bold text-purple-600 mb-2 counter" data-target="12500">0</div>
+                        <div class="text-gray-600">Active Citizens</div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Government Appreciation -->
-        <section class="py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <section class="py-16 lg:py-20 bg-gradient-to-br from-green-50/30 to-blue-50/20">
+            <div class="max-w-6xl mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <div class="inline-flex items-center px-4 py-2 bg-green-50/70 rounded-full border border-green-200/50 mb-6">
+                        <span class="text-sm text-green-700 font-medium">Recognition</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 mb-6">
                         Special Appreciation from Government Officials
                     </h2>
-                    <p class="text-lg text-gray-600">
-                        Recognition from municipal authorities across India
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        CIVICVIEW has been recognized by various government bodies for its contribution to civic engagement.
                     </p>
                 </div>
-                
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="appreciation-card rounded-xl p-8 shadow-sm">
-                        <div class="mb-6">
-                            <i data-lucide="quote" class="w-8 h-8 text-blue-600 mb-4"></i>
-                            <p class="text-gray-700 leading-relaxed">
-                                "CIVICVIEW has transformed how we interact with citizens in Bangalore. The platform's efficiency in issue reporting and tracking has improved our response time by 60%."
-                            </p>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                <i data-lucide="user" class="w-6 h-6 text-blue-600"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900">Rajesh Kumar</h4>
-                                <p class="text-sm text-gray-600">Commissioner, Bruhat Bengaluru Mahanagara Palike</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="appreciation-card rounded-xl p-8 shadow-sm">
-                        <div class="mb-6">
-                            <i data-lucide="quote" class="w-8 h-8 text-green-600 mb-4"></i>
-                            <p class="text-gray-700 leading-relaxed">
-                                "The transparency and real-time tracking features have significantly improved citizen trust in municipal services. An excellent initiative for digital governance."
-                            </p>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                                <i data-lucide="user" class="w-6 h-6 text-green-600"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900">Priya Sharma</h4>
-                                <p class="text-sm text-gray-600">Deputy Commissioner, New Delhi Municipal Corporation</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="appreciation-card rounded-xl p-8 shadow-sm">
-                        <div class="mb-6">
-                            <i data-lucide="quote" class="w-8 h-8 text-purple-600 mb-4"></i>
-                            <p class="text-gray-700 leading-relaxed">
-                                "CIVICVIEW's smart prioritization system has helped us allocate resources more effectively, resulting in faster resolution of critical civic issues."
-                            </p>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                                <i data-lucide="user" class="w-6 h-6 text-purple-600"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900">Amit Patel</h4>
-                                <p class="text-sm text-gray-600">Municipal Commissioner, Ahmedabad Municipal Corporation</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Core Values -->
-        <section class="py-16 bg-white/50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Core Values</h2>
-                    <p class="text-lg text-gray-600">
-                        The principles that guide our mission to improve Indian communities
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
-                        <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <i data-lucide="eye" class="w-8 h-8 text-blue-600"></i>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+                        <div class="flex items-start gap-4">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="award" class="w-8 h-8 text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">Municipal Corporation Recognition</h3>
+                                <p class="text-gray-600 mb-4">
+                                    "CIVICVIEW has transformed how citizens engage with civic issues. The platform has significantly 
+                                    improved our response time and resolution efficiency."
+                                </p>
+                                <div class="text-sm text-gray-500">
+                                    <strong>- Municipal Commissioner</strong><br>
+                                    Greater Mumbai Municipal Corporation
+                                </div>
+                            </div>
                         </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Transparency</h4>
-                        <p class="text-gray-600">
-                            Open governance and clear communication between citizens and government officials.
-                        </p>
                     </div>
-                    
-                    <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
-                        <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <i data-lucide="check-circle" class="w-8 h-8 text-green-600"></i>
+
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+                        <div class="flex items-start gap-4">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="shield-check" class="w-8 h-8 text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">Digital India Initiative</h3>
+                                <p class="text-gray-600 mb-4">
+                                    "Platforms like CIVICVIEW are essential for building Smart Cities. They represent the future 
+                                    of citizen-government collaboration in the digital age."
+                                </p>
+                                <div class="text-sm text-gray-500">
+                                    <strong>- Digital India Program</strong><br>
+                                    Ministry of Electronics & IT
+                                </div>
+                            </div>
                         </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Accountability</h4>
-                        <p class="text-gray-600">
-                            Ensuring every civic issue is tracked and addressed with measurable outcomes.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
-                        <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <i data-lucide="users" class="w-8 h-8 text-purple-600"></i>
-                        </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Inclusivity</h4>
-                        <p class="text-gray-600">
-                            Making civic participation accessible to all Indians, regardless of background or location.
-                        </p>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
-                        <div class="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <i data-lucide="zap" class="w-8 h-8 text-orange-600"></i>
-                        </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Innovation</h4>
-                        <p class="text-gray-600">
-                            Leveraging technology to create efficient solutions for modern civic challenges.
-                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- CTA Section -->
-        <section class="py-16">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                    Ready to Transform Your Community?
+        <section class="py-16 lg:py-20 bg-white">
+            <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+                <h2 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 mb-6">
+                    Ready to Make a Difference?
                 </h2>
-                <p class="text-lg text-gray-600 mb-8">
-                    Join thousands of citizens and government officials working together to build better Indian cities.
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                    Join thousands of citizens who are already using CIVICVIEW to improve their communities.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onclick="window.location.href='getstarted.html'" class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-lg text-lg font-medium hover:shadow-lg transition-all duration-200">
-                        Get Started Today
+                    <button onclick="handleReportIssue()" class="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-4 text-lg rounded-xl group font-medium">
+                        Report an Issue
+                        <i data-lucide="arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform inline-block"></i>
                     </button>
-                    <button onclick="window.location.href='contactus.html'" class="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg text-lg font-medium hover:bg-blue-50 transition-all duration-200">
-                        Contact Our Team
+                    
+                    <button onclick="redirectToGetStarted()" class="border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-300 px-8 py-4 text-lg rounded-xl group font-medium">
+                        <i data-lucide="user-plus" class="mr-2 w-5 h-5 group-hover:scale-110 transition-transform inline-block"></i>
+                        Join CIVICVIEW
                     </button>
                 </div>
             </div>
@@ -357,54 +364,60 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
             <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                            <i data-lucide="shield-check" class="w-5 h-5 text-white"></i>
+                <!-- Brand Section -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-green-600 rounded-[20px] flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">CV</span>
                         </div>
-                        <span class="text-xl font-bold">CIVICVIEW</span>
+                        <span class="text-2xl font-bold tracking-tight font-acme">CIVICVIEW</span>
                     </div>
-                    <p class="text-gray-400">
-                        Empowering Indian citizens to build better communities through transparent civic engagement.
+                    <p class="text-gray-300 max-w-md leading-relaxed mb-6">
+                        Empowering Indian citizens to report civic issues and create positive change in their communities through technology-driven civic engagement.
                     </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                    </div>
                 </div>
-                
+
+                <!-- Quick Links -->
                 <div>
-                    <h3 class="font-semibold mb-4">Platform</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
-                        <li><a href="aboutus.html" class="hover:text-white transition-colors">About Us</a></li>
-                        <li><a href="contactus.html" class="hover:text-white transition-colors">Contact</a></li>
-                        <li><a href="getstarted.html" class="hover:text-white transition-colors">Get Started</a></li>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><button onclick="window.location.href='index.html'" class="text-gray-300 hover:text-white transition-colors">Home</button></li>
+                        <li><button onclick="window.location.href='aboutus.html'" class="text-gray-300 hover:text-white transition-colors">About Us</button></li>
+                        <li><button onclick="window.location.href='contactus.html'" class="text-gray-300 hover:text-white transition-colors">Contact Us</button></li>
+                        <li><button onclick="redirectToGetStarted()" class="text-gray-300 hover:text-white transition-colors">Get Started</button></li>
                     </ul>
                 </div>
-                
+
+                <!-- Support -->
                 <div>
-                    <h3 class="font-semibold mb-4">Community</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Citizens</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Government</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Success Stories</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="font-semibold mb-4">Legal</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Data Protection</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Accessibility</a></li>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mailto:help@civicview.in" class="text-gray-300 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="mailto:support@civicview.in" class="text-gray-300 hover:text-white transition-colors">Support</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 CIVICVIEW. All rights reserved. Made for India, by Indians.</p>
+
+            <div class="border-t border-gray-700 pt-8 mt-12 text-center">
+                <p class="text-gray-400">
+                    © 2024 CIVICVIEW. All rights reserved. Making Indian cities better, together.
+                </p>
             </div>
         </div>
     </footer>
