@@ -1,4 +1,4 @@
-// CIVICVIEW - JavaScript Functions
+// CIVICVIEW - Tailwind V4 Compatible JavaScript
 
 // Initialize Lucide icons and global variables
 document.addEventListener('DOMContentLoaded', function() {
@@ -51,6 +51,9 @@ function handleReportIssue() {
 function logout() {
     localStorage.removeItem('civicview_current_user');
     localStorage.removeItem('civicview_pending_report_issue');
+    
+    // Dispatch custom event for auth change
+    window.dispatchEvent(new CustomEvent('civicview-auth-change'));
     window.location.href = 'index.html';
 }
 
@@ -67,11 +70,9 @@ function goToDashboard() {
             }
         } catch (error) {
             console.error('Error parsing user data:', error);
-            // If error, redirect to get started
             window.location.href = 'getstarted.html';
         }
     } else {
-        // No user logged in, redirect to get started
         window.location.href = 'getstarted.html';
     }
 }
@@ -92,27 +93,25 @@ function updateHeaderButtons() {
     const mobileGetStartedBtn = document.getElementById('mobile-get-started-btn');
     
     if (isLoggedIn) {
-        // Show dashboard and logout buttons, hide get started
+        // Show dashboard and logout buttons
         if (dashboardBtn) dashboardBtn.classList.remove('hidden');
         if (logoutBtn) logoutBtn.classList.remove('hidden');
         if (getStartedBtn) getStartedBtn.classList.add('hidden');
-        
         if (mobileDashboardBtn) mobileDashboardBtn.classList.remove('hidden');
         if (mobileLogoutBtn) mobileLogoutBtn.classList.remove('hidden');
         if (mobileGetStartedBtn) mobileGetStartedBtn.classList.add('hidden');
     } else {
-        // Show get started button, hide dashboard and logout
+        // Show get started button
         if (dashboardBtn) dashboardBtn.classList.add('hidden');
         if (logoutBtn) logoutBtn.classList.add('hidden');
         if (getStartedBtn) getStartedBtn.classList.remove('hidden');
-        
         if (mobileDashboardBtn) mobileDashboardBtn.classList.add('hidden');
         if (mobileLogoutBtn) mobileLogoutBtn.classList.add('hidden');
         if (mobileGetStartedBtn) mobileGetStartedBtn.classList.remove('hidden');
     }
 }
 
-// Counter animation for stats
+// Counter animation for stats with enhanced effects
 function animateCounters() {
     const counters = document.querySelectorAll('.counter');
     counters.forEach(counter => {
@@ -127,63 +126,69 @@ function animateCounters() {
             const progress = currentStep / steps;
             const currentValue = Math.floor(targetValue * progress);
             
-            counter.textContent = currentValue.toLocaleString() + (targetValue > 999 ? '+' : '');
+            counter.textContent = currentValue.toLocaleString();
             
             if (currentStep >= steps) {
                 clearInterval(interval);
-                counter.textContent = targetValue.toLocaleString() + (targetValue > 999 ? '+' : '');
+                counter.textContent = targetValue.toLocaleString();
             }
         }, stepDuration);
     });
 }
 
-// Auto-scroll functionality for complaint types
+// Auto-scroll functionality for complaint types with enhanced UX
 function initComplaintTypesScroll() {
     const scrollContainer = document.getElementById('complaint-types-scroll');
-    if (scrollContainer) {
-        let isScrolling = false;
-        let scrollTimeout;
+    if (!scrollContainer) return;
+    
+    let isScrolling = false;
+    let scrollDirection = 1;
+    let scrollInterval;
+    
+    function autoScroll() {
+        if (isScrolling) return;
         
-        function autoScroll() {
-            if (!isScrolling) {
-                scrollContainer.scrollBy({
-                    left: 320,
-                    behavior: 'smooth'
-                });
-                
-                // Reset scroll if at the end
-                setTimeout(() => {
-                    if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth) {
-                        scrollContainer.scrollTo({
-                            left: 0,
-                            behavior: 'smooth'
-                        });
-                    }
-                }, 1000);
-            }
+        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        
+        if (scrollContainer.scrollLeft >= maxScroll) {
+            scrollDirection = -1;
+        } else if (scrollContainer.scrollLeft <= 0) {
+            scrollDirection = 1;
         }
         
-        // Auto scroll every 5 seconds
-        const autoScrollInterval = setInterval(autoScroll, 5000);
-        
-        // Pause auto scroll when user is manually scrolling
-        const handleScroll = () => {
-            isScrolling = true;
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                isScrolling = false;
-            }, 1000);
-        };
-
-        scrollContainer.addEventListener('scroll', handleScroll);
-        
-        // Cleanup function
-        return () => {
-            clearInterval(autoScrollInterval);
-            clearTimeout(scrollTimeout);
-            scrollContainer.removeEventListener('scroll', handleScroll);
-        };
+        scrollContainer.scrollBy({
+            left: scrollDirection * 2,
+            behavior: 'smooth'
+        });
     }
+    
+    // Start auto-scroll
+    scrollInterval = setInterval(autoScroll, 50);
+    
+    // Pause auto-scroll on hover
+    scrollContainer.addEventListener('mouseenter', () => {
+        isScrolling = true;
+        if (scrollInterval) {
+            clearInterval(scrollInterval);
+        }
+    });
+    
+    scrollContainer.addEventListener('mouseleave', () => {
+        isScrolling = false;
+        setTimeout(() => {
+            if (!isScrolling) {
+                scrollInterval = setInterval(autoScroll, 50);
+            }
+        }, 1000);
+    });
+    
+    // Add click handlers for complaint type cards
+    const complaintCards = scrollContainer.querySelectorAll('.group');
+    complaintCards.forEach(card => {
+        card.addEventListener('click', () => {
+            handleReportIssue();
+        });
+    });
 }
 
 // Smooth scrolling for anchor links
@@ -204,6 +209,13 @@ function initSmoothScrolling() {
 // Get Started Page Functions
 let currentPortal = null;
 let currentTab = 'login';
+let formData = {
+    email: '',
+    password: '',
+    confirmPassword: '',
+    employeeId: ''
+};
+let showPassword = {};
 
 function selectPortal(portalType) {
     currentPortal = portalType;
@@ -213,6 +225,9 @@ function selectPortal(portalType) {
     const portalIcon = document.getElementById('portalIcon');
     const portalTitle = document.getElementById('portalTitle');
     const portalDescription = document.getElementById('portalDescription');
+    const employeeIdField = document.getElementById('employeeIdField');
+    const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+    const signupSubmitBtn = document.getElementById('signupSubmitBtn');
     
     if (portalSelection && authForms) {
         portalSelection.classList.add('hidden');
@@ -221,13 +236,39 @@ function selectPortal(portalType) {
     
     if (portalIcon && portalTitle && portalDescription) {
         if (portalType === 'citizen') {
-            portalIcon.innerHTML = '<i data-lucide="users" class="w-8 h-8 text-blue-600"></i>';
+            portalIcon.innerHTML = '<div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center"><i data-lucide="users" class="w-8 h-8 text-blue-600"></i></div>';
             portalTitle.textContent = 'Citizen Portal';
             portalDescription.textContent = 'Access your citizen dashboard';
+            
+            // Hide employee ID field for citizens
+            if (employeeIdField) employeeIdField.classList.add('hidden');
+            
+            // Update button styles for citizen
+            if (loginSubmitBtn) {
+                loginSubmitBtn.className = 'w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300';
+                loginSubmitBtn.textContent = 'Login to Citizen Portal';
+            }
+            if (signupSubmitBtn) {
+                signupSubmitBtn.className = 'w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300';
+                signupSubmitBtn.textContent = 'Create Citizen Account';
+            }
         } else {
-            portalIcon.innerHTML = '<i data-lucide="shield" class="w-8 h-8 text-green-600"></i>';
+            portalIcon.innerHTML = '<div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center"><i data-lucide="shield" class="w-8 h-8 text-green-600"></i></div>';
             portalTitle.textContent = 'Admin Portal';
             portalDescription.textContent = 'Access administrative dashboard';
+            
+            // Show employee ID field for admin
+            if (employeeIdField) employeeIdField.classList.remove('hidden');
+            
+            // Update button styles for admin
+            if (loginSubmitBtn) {
+                loginSubmitBtn.className = 'w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300';
+                loginSubmitBtn.textContent = 'Login to Admin Portal';
+            }
+            if (signupSubmitBtn) {
+                signupSubmitBtn.className = 'w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300';
+                signupSubmitBtn.textContent = 'Create Admin Account';
+            }
         }
         
         if (typeof lucide !== 'undefined') {
@@ -235,7 +276,6 @@ function selectPortal(portalType) {
         }
     }
     
-    // Reset forms
     resetAuthForms();
 }
 
@@ -249,23 +289,19 @@ function switchTab(tab) {
     
     if (tab === 'login') {
         if (loginTab) {
-            loginTab.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
-            loginTab.classList.remove('text-gray-500');
+            loginTab.className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 bg-white text-gray-900 shadow-sm';
         }
         if (signupTab) {
-            signupTab.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
-            signupTab.classList.add('text-gray-500');
+            signupTab.className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 text-gray-500 hover:text-gray-700';
         }
         if (loginForm) loginForm.classList.remove('hidden');
         if (signupForm) signupForm.classList.add('hidden');
     } else {
         if (signupTab) {
-            signupTab.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
-            signupTab.classList.remove('text-gray-500');
+            signupTab.className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 bg-white text-gray-900 shadow-sm';
         }
         if (loginTab) {
-            loginTab.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
-            loginTab.classList.add('text-gray-500');
+            loginTab.className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 text-gray-500 hover:text-gray-700';
         }
         if (signupForm) signupForm.classList.remove('hidden');
         if (loginForm) loginForm.classList.add('hidden');
@@ -305,10 +341,24 @@ function goBack() {
 }
 
 function resetAuthForms() {
+    // Reset form data
+    formData = {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        employeeId: ''
+    };
+    showPassword = {};
+    
+    // Reset form fields
     const forms = document.querySelectorAll('#loginForm, #signupForm');
     forms.forEach(form => {
         if (form) form.reset();
     });
+    
+    // Reset to login tab
+    currentTab = 'login';
+    switchTab('login');
     
     // Reset password visibility
     const passwordInputs = document.querySelectorAll('input[type="text"][id*="password"], input[type="password"]');
@@ -339,13 +389,37 @@ function checkExistingLogin() {
     return null;
 }
 
-// Authentication Functions
+// Check for existing login
+function checkExistingLogin() {
+    const currentUser = localStorage.getItem('civicview_current_user');
+    if (currentUser) {
+        try {
+            const userData = JSON.parse(currentUser);
+            return userData.portalType;
+        } catch {
+            return null;
+        }
+    }
+    return null;
+}
+
+// Enhanced Authentication Functions
 async function handleLogin(e) {
     e.preventDefault();
+    
+    if (!currentPortal) {
+        alert('Please select a portal type first.');
+        return;
+    }
     
     const email = document.getElementById('loginEmail')?.value;
     const password = document.getElementById('loginPassword')?.value;
     const employeeId = document.getElementById('employeeId')?.value;
+    
+    if (!email || !password) {
+        alert('Please fill in all fields.');
+        return;
+    }
     
     // Validate admin fields
     if (currentPortal === 'admin' && !employeeId?.trim()) {
@@ -353,6 +427,7 @@ async function handleLogin(e) {
         return;
     }
     
+    // Check for existing opposite portal login
     const existingLogin = checkExistingLogin();
     const oppositePortal = currentPortal === 'citizen' ? 'admin' : 'citizen';
     
@@ -366,46 +441,52 @@ async function handleLogin(e) {
     
     if (submitButton) {
         submitButton.disabled = true;
-        submitButton.classList.add('btn-loading');
-        submitButton.textContent = 'Logging in...';
-    }
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Create user data
-    const userData = {
-        email: email,
-        portalType: currentPortal,
-        loginTime: new Date().toISOString(),
-        firstName: currentPortal === 'citizen' ? 'Citizen' : 'Admin',
-        lastName: 'User',
-        ...(currentPortal === 'admin' && { employeeId: employeeId })
-    };
-    
-    // Store user data
-    localStorage.setItem('civicview_current_user', JSON.stringify(userData));
-    
-    // Reset button
-    if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.classList.remove('btn-loading');
-        if (originalText) {
-            submitButton.innerHTML = originalText;
+        submitButton.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 inline mr-2 animate-spin"></i>Logging in...';
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
         }
     }
     
-    // Check if user should go to report issue directly
-    const shouldReportIssue = localStorage.getItem('civicview_pending_report_issue');
-    if (shouldReportIssue === 'true' && currentPortal === 'citizen') {
-        localStorage.removeItem('civicview_pending_report_issue');
-        window.location.href = 'report.html';
-    } else {
-        // Navigate to appropriate dashboard
-        if (currentPortal === 'citizen') {
-            window.location.href = 'citizen.html';
+    try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Create user data
+        const userData = {
+            email: email,
+            portalType: currentPortal,
+            firstName: currentPortal === 'citizen' ? 'Citizen' : 'Admin',
+            lastName: 'User',
+            loginTime: new Date().toISOString(),
+            ...(currentPortal === 'admin' && { employeeId: employeeId })
+        };
+        
+        // Store user data
+        localStorage.setItem('civicview_current_user', JSON.stringify(userData));
+        
+        // Dispatch auth change event
+        window.dispatchEvent(new CustomEvent('civicview-auth-change'));
+        
+        // Check if user should go to report issue directly
+        const pendingReportIssue = localStorage.getItem('civicview_pending_report_issue') === 'true';
+        if (pendingReportIssue && currentPortal === 'citizen') {
+            localStorage.removeItem('civicview_pending_report_issue');
+            window.location.href = 'report.html';
         } else {
-            window.location.href = 'admin.html';
+            // Navigate to appropriate dashboard
+            window.location.href = currentPortal === 'citizen' ? 'citizen.html' : 'admin.html';
+        }
+        
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('Login failed. Please try again.');
+        
+        if (submitButton && originalText) {
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
         }
     }
 }
@@ -413,15 +494,31 @@ async function handleLogin(e) {
 async function handleSignup(e) {
     e.preventDefault();
     
+    if (!currentPortal) {
+        alert('Please select a portal type first.');
+        return;
+    }
+    
     const email = document.getElementById('signupEmail')?.value;
     const password = document.getElementById('signupPassword')?.value;
     const confirmPassword = document.getElementById('confirmPassword')?.value;
+    
+    if (!email || !password || !confirmPassword) {
+        alert('Please fill in all fields.');
+        return;
+    }
     
     if (password !== confirmPassword) {
         alert('Passwords do not match. Please try again.');
         return;
     }
     
+    if (password.length < 6) {
+        alert('Password must be at least 6 characters long.');
+        return;
+    }
+    
+    // Check for existing opposite portal login
     const existingLogin = checkExistingLogin();
     const oppositePortal = currentPortal === 'citizen' ? 'admin' : 'citizen';
     
@@ -435,45 +532,51 @@ async function handleSignup(e) {
     
     if (submitButton) {
         submitButton.disabled = true;
-        submitButton.classList.add('btn-loading');
-        submitButton.textContent = 'Creating account...';
-    }
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Create user data
-    const userData = {
-        email: email,
-        portalType: currentPortal,
-        loginTime: new Date().toISOString(),
-        firstName: currentPortal === 'citizen' ? 'Citizen' : 'Admin',
-        lastName: 'User'
-    };
-    
-    // Store user data
-    localStorage.setItem('civicview_current_user', JSON.stringify(userData));
-    
-    // Reset button
-    if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.classList.remove('btn-loading');
-        if (originalText) {
-            submitButton.innerHTML = originalText;
+        submitButton.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 inline mr-2 animate-spin"></i>Creating account...';
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
         }
     }
     
-    // Check if user should go to report issue directly
-    const shouldReportIssue = localStorage.getItem('civicview_pending_report_issue');
-    if (shouldReportIssue === 'true' && currentPortal === 'citizen') {
-        localStorage.removeItem('civicview_pending_report_issue');
-        window.location.href = 'report.html';
-    } else {
-        // Navigate to appropriate dashboard
-        if (currentPortal === 'citizen') {
-            window.location.href = 'citizen.html';
+    try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Create user data
+        const userData = {
+            email: email,
+            portalType: currentPortal,
+            firstName: currentPortal === 'citizen' ? 'Citizen' : 'Admin',
+            lastName: 'User',
+            loginTime: new Date().toISOString()
+        };
+        
+        // Store user data
+        localStorage.setItem('civicview_current_user', JSON.stringify(userData));
+        
+        // Dispatch auth change event
+        window.dispatchEvent(new CustomEvent('civicview-auth-change'));
+        
+        // Check if user should go to report issue directly
+        const shouldReportIssue = localStorage.getItem('civicview_pending_report_issue');
+        if (shouldReportIssue === 'true' && currentPortal === 'citizen') {
+            localStorage.removeItem('civicview_pending_report_issue');
+            window.location.href = 'report.html';
         } else {
-            window.location.href = 'admin.html';
+            // Navigate to appropriate dashboard
+            window.location.href = currentPortal === 'citizen' ? 'citizen.html' : 'admin.html';
+        }
+        
+    } catch (error) {
+        console.error('Signup error:', error);
+        alert('Account creation failed. Please try again.');
+        
+        if (submitButton && originalText) {
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
         }
     }
 }
@@ -572,6 +675,7 @@ function getPriorityBadge(priority) {
 let currentStep = 1;
 let selectedImage = null;
 let imagePreview = null;
+let showMapButton = false;
 
 function nextStep() {
     if (validateCurrentStep()) {
@@ -667,6 +771,38 @@ function validateCurrentStep() {
     return true;
 }
 
+// Enhanced location input with "Report on Maps" button
+function handleLocationInput(inputElement) {
+    const locationInput = inputElement || document.getElementById('location');
+    const mapButton = document.getElementById('mapButton');
+    
+    if (locationInput && mapButton) {
+        const inputValue = locationInput.value.trim();
+        
+        if (inputValue.length >= 3 && !showMapButton) {
+            showMapButton = true;
+            mapButton.classList.remove('hidden');
+            mapButton.classList.add('slide-up');
+        } else if (inputValue.length < 3 && showMapButton) {
+            showMapButton = false;
+            mapButton.classList.add('hidden');
+            mapButton.classList.remove('slide-up');
+        }
+    }
+}
+
+function reportOnMaps() {
+    const locationInput = document.getElementById('location');
+    if (locationInput && locationInput.value.trim()) {
+        const location = encodeURIComponent(locationInput.value.trim());
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${location}`;
+        console.log('Opening Google Maps with URL:', mapsUrl);
+        window.open(mapsUrl, '_blank');
+    } else {
+        console.error('No location entered or location input not found');
+    }
+}
+
 function handleImageUpload(event) {
     const file = event.target.files[0];
     if (file) {
@@ -740,70 +876,90 @@ function populateReview() {
     const reviewDescription = document.getElementById('reviewDescription');
     const reviewLocation = document.getElementById('reviewLocation');
     const reviewUrgency = document.getElementById('reviewUrgency');
+    
+    if (reviewTitle) reviewTitle.textContent = title || '';
+    if (reviewCategory) reviewCategory.textContent = category || '';
+    if (reviewDescription) reviewDescription.textContent = description || '';
+    if (reviewLocation) reviewLocation.textContent = location || '';
+    if (reviewUrgency) reviewUrgency.textContent = urgency || '';
+    
+    // Show image preview if available
+    const reviewImageContainer = document.getElementById('reviewImageContainer');
     const reviewImage = document.getElementById('reviewImage');
     
-    if (reviewTitle) reviewTitle.textContent = title;
-    if (reviewCategory) reviewCategory.textContent = category;
-    if (reviewDescription) reviewDescription.textContent = description;
-    if (reviewLocation) reviewLocation.textContent = location;
-    if (reviewUrgency) reviewUrgency.textContent = urgency;
-    
-    if (reviewImage) {
-        if (imagePreview) {
-            reviewImage.innerHTML = `<img src="${imagePreview}" alt="Issue Image" class="w-full h-32 object-cover rounded-lg">`;
-        } else {
-            reviewImage.innerHTML = '<p class="text-gray-500 text-sm">No image uploaded</p>';
-        }
+    if (imagePreview && reviewImageContainer && reviewImage) {
+        reviewImageContainer.classList.remove('hidden');
+        reviewImage.src = imagePreview;
+    } else if (reviewImageContainer) {
+        reviewImageContainer.classList.add('hidden');
     }
 }
 
 function generateReportId() {
     const currentYear = new Date().getFullYear();
-    const randomNum = Math.floor(Math.random() * 900) + 100; // 3-digit number
+    const randomNum = Math.floor(Math.random() * 900) + 100;
     return `CV-${currentYear}-${randomNum}`;
 }
 
 async function handleReportSubmission(e) {
     e.preventDefault();
     
-    if (!validateCurrentStep()) {
-        return;
-    }
-    
     const submitButton = document.getElementById('submitButton');
     const originalText = submitButton?.innerHTML;
     
     if (submitButton) {
-        // Show loading state
         submitButton.disabled = true;
-        submitButton.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 inline mr-2 animate-spin"></i>Submitting...';
+        submitButton.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 inline mr-2 animate-spin"></i>Submitting Report...';
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
-        
-        // Simulate form submission
+    }
+    
+    try {
+        // Simulate API submission
         await new Promise(resolve => setTimeout(resolve, 2000));
         
-        // Generate report ID and show success modal
+        // Generate report ID
         const reportId = generateReportId();
-        const reportIdElement = document.getElementById('reportId');
-        if (reportIdElement) {
-            reportIdElement.textContent = reportId;
-        }
         
+        // Store report data locally (in a real app, this would be sent to a server)
+        const reportData = {
+            id: reportId,
+            title: document.getElementById('title')?.value,
+            category: document.getElementById('category')?.value,
+            description: document.getElementById('description')?.value,
+            location: document.getElementById('location')?.value,
+            urgency: document.querySelector('input[name="urgency"]:checked')?.value,
+            image: imagePreview,
+            status: 'reported',
+            submittedAt: new Date().toISOString()
+        };
+        
+        // Save to localStorage (in production, this would be an API call)
+        const existingReports = JSON.parse(localStorage.getItem('user_reports') || '[]');
+        existingReports.push(reportData);
+        localStorage.setItem('user_reports', JSON.stringify(existingReports));
+        
+        // Show success modal
         const successModal = document.getElementById('successModal');
-        if (successModal) {
+        const reportIdSpan = document.getElementById('reportId');
+        
+        if (successModal && reportIdSpan) {
+            reportIdSpan.textContent = reportId;
             successModal.classList.remove('hidden');
             successModal.classList.add('flex');
         }
         
-        // Reset button
-        submitButton.disabled = false;
-        if (originalText) {
+    } catch (error) {
+        console.error('Submission error:', error);
+        alert('Failed to submit report. Please try again.');
+        
+        if (submitButton && originalText) {
+            submitButton.disabled = false;
             submitButton.innerHTML = originalText;
-        }
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
         }
     }
 }
@@ -815,10 +971,8 @@ function closeSuccessModal() {
         successModal.classList.remove('flex');
     }
     
-    // Redirect based on context
-    if (window.location.pathname.includes('report.html')) {
-        window.location.href = 'citizen.html';
-    }
+    // Redirect to citizen dashboard
+    window.location.href = 'citizen.html';
 }
 
 // Contact form handler
@@ -829,7 +983,6 @@ async function handleContactSubmission(e) {
     const originalText = submitButton?.innerHTML;
     
     if (submitButton) {
-        // Show loading state
         submitButton.disabled = true;
         submitButton.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 inline mr-2 animate-spin"></i>Sending...';
         if (typeof lucide !== 'undefined') {
@@ -865,22 +1018,13 @@ async function handleContactSubmission(e) {
 
 // Modal Functions
 function viewReport(reportId) {
-    // This would be implemented with actual report data
     const modal = document.getElementById('reportModal');
     if (modal) {
         modal.classList.add('show');
     }
 }
 
-function closeModal() {
-    const modal = document.getElementById('reportModal');
-    if (modal) {
-        modal.classList.remove('show');
-    }
-}
-
 function updateStatus(reportId) {
-    // Simulate status update
     const statusOptions = ['reported', 'acknowledged', 'in-progress', 'resolved', 'rejected'];
     const newStatus = statusOptions[Math.floor(Math.random() * statusOptions.length)];
     alert(`Report ${reportId} status updated to: ${newStatus}`);
@@ -928,14 +1072,14 @@ function checkAuth() {
     }
 }
 
-// Data Loading Functions (these would connect to real APIs in production)
+// Data Loading Functions
 function updateStats() {
-    // Sample implementation - would fetch real data in production
+    const reports = JSON.parse(localStorage.getItem('user_reports') || '[]');
     const stats = {
-        total: 2,
-        resolved: 1,
-        inProgress: 1,
-        pending: 0
+        total: reports.length,
+        resolved: reports.filter(r => r.status === 'resolved').length,
+        inProgress: reports.filter(r => r.status === 'in-progress').length,
+        pending: reports.filter(r => r.status === 'reported').length
     };
     
     const totalReports = document.getElementById('totalReports');
@@ -950,19 +1094,31 @@ function updateStats() {
 }
 
 function loadReports() {
-    // This would load actual user reports in production
+    const reports = JSON.parse(localStorage.getItem('user_reports') || '[]');
     const reportsList = document.getElementById('reportsList');
     const noReports = document.getElementById('noReports');
     
-    // Sample data check
-    const hasReports = true; // This would be determined by actual data
-    
-    if (hasReports && reportsList) {
+    if (reports.length > 0 && reportsList) {
         reportsList.classList.remove('hidden');
         if (noReports) noReports.classList.add('hidden');
         
-        // Populate with sample data
-        reportsList.innerHTML = getSampleReportsHTML();
+        reportsList.innerHTML = reports.map(report => `
+            <div class="bg-white rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-all duration-300">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i data-lucide="alert-triangle" class="w-6 h-6 text-blue-600"></i>
+                    </div>
+                    ${getStatusBadge(report.status)}
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">${report.title}</h3>
+                <p class="text-gray-600 text-sm mb-4">${report.description.substring(0, 100)}...</p>
+                <div class="flex items-center justify-between text-sm text-gray-500">
+                    <span>${new Date(report.submittedAt).toLocaleDateString()}</span>
+                    <span>${report.location}</span>
+                </div>
+            </div>
+        `).join('');
+        
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
@@ -1003,108 +1159,31 @@ function populateAllReportsTable() {
 }
 
 function filterReports() {
-    // Implement filtering logic here
     populateAllReportsTable();
 }
 
 // Sample data generators
-function getSampleReportsHTML() {
-    return `
-        <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow report-card border border-gray-100">
-            <div class="flex items-start justify-between mb-4">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                        <i data-lucide="construction" class="w-5 h-5 text-orange-600"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-900">Pothole on Main Street</h3>
-                        <p class="text-sm text-gray-500">Report #CV-2024-245</p>
-                    </div>
-                </div>
-                ${getStatusBadge('in-progress')}
-            </div>
-            <p class="text-gray-600 text-sm mb-4">Large pothole causing traffic congestion near the city center intersection.</p>
-            <div class="flex items-center justify-between">
-                <span class="text-xs text-gray-500">Reported 2 days ago</span>
-                <div class="w-full bg-gray-200 rounded-full h-2 mx-4">
-                    <div class="bg-blue-600 h-2 rounded-full progress-bar" style="width: 60%"></div>
-                </div>
-                <span class="text-xs text-blue-600 font-medium">60%</span>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow report-card border border-gray-100">
-            <div class="flex items-start justify-between mb-4">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                        <i data-lucide="lightbulb" class="w-5 h-5 text-green-600"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-900">Broken Street Light</h3>
-                        <p class="text-sm text-gray-500">Report #CV-2024-203</p>
-                    </div>
-                </div>
-                ${getStatusBadge('resolved')}
-            </div>
-            <p class="text-gray-600 text-sm mb-4">Street light not working, creating safety concerns during night hours.</p>
-            <div class="flex items-center justify-between">
-                <span class="text-xs text-gray-500">Resolved 1 week ago</span>
-                <div class="w-full bg-gray-200 rounded-full h-2 mx-4">
-                    <div class="bg-green-600 h-2 rounded-full progress-bar" style="width: 100%"></div>
-                </div>
-                <span class="text-xs text-green-600 font-medium">100%</span>
-            </div>
-        </div>
-    `;
-}
-
 function getSampleCommunityFeedHTML() {
     return `
-        <div class="space-y-4">
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <div class="flex items-start justify-between mb-3">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                            <i data-lucide="user" class="w-4 h-4 text-blue-600"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-medium text-gray-900">Anonymous Citizen</h4>
-                            <p class="text-xs text-gray-500">Ward 12, Sector 15</p>
-                        </div>
+        <div class="space-y-6">
+            <div class="bg-white rounded-2xl p-6 border border-gray-200">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i data-lucide="user" class="w-6 h-6 text-blue-600"></i>
                     </div>
-                    ${getStatusBadge('reported')}
-                </div>
-                <h5 class="font-medium text-gray-900 mb-2">Drainage overflow near park</h5>
-                <p class="text-gray-600 text-sm mb-3">Water logging due to blocked drainage system affecting pedestrian movement.</p>
-                <div class="flex items-center justify-between text-xs text-gray-500">
-                    <span>3 hours ago</span>
-                    <div class="flex items-center space-x-4">
-                        <span class="flex items-center"><i data-lucide="thumbs-up" class="w-3 h-3 mr-1"></i> 5</span>
-                        <span class="flex items-center"><i data-lucide="message-circle" class="w-3 h-3 mr-1"></i> 2</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <div class="flex items-start justify-between mb-3">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                            <i data-lucide="user" class="w-4 h-4 text-green-600"></i>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="font-semibold text-gray-900">Priya Sharma</span>
+                            <span class="text-sm text-gray-500">reported</span>
+                            ${getStatusBadge('acknowledged')}
                         </div>
-                        <div>
-                            <h4 class="font-medium text-gray-900">Community Member</h4>
-                            <p class="text-xs text-gray-500">Ward 8, Sector 22</p>
+                        <h4 class="font-medium text-gray-900 mb-2">Water logging in Sector 12</h4>
+                        <p class="text-gray-600 text-sm mb-3">Severe water logging issue during monsoon season affecting daily commute.</p>
+                        <div class="flex items-center gap-4 text-sm text-gray-500">
+                            <span>3 hours ago</span>
+                            <span>Noida, UP</span>
+                            <button class="text-blue-600 hover:text-blue-700">View Details</button>
                         </div>
-                    </div>
-                    ${getStatusBadge('resolved')}
-                </div>
-                <h5 class="font-medium text-gray-900 mb-2">Garbage collection completed</h5>
-                <p class="text-gray-600 text-sm mb-3">Thank you to the municipal team for addressing the waste management issue promptly.</p>
-                <div class="flex items-center justify-between text-xs text-gray-500">
-                    <span>1 day ago</span>
-                    <div class="flex items-center space-x-4">
-                        <span class="flex items-center"><i data-lucide="thumbs-up" class="w-3 h-3 mr-1"></i> 12</span>
-                        <span class="flex items-center"><i data-lucide="message-circle" class="w-3 h-3 mr-1"></i> 7</span>
                     </div>
                 </div>
             </div>
@@ -1114,30 +1193,20 @@ function getSampleCommunityFeedHTML() {
 
 function getSampleAdminReportsHTML() {
     return `
-        <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">CV-2024-245</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Pothole on Main Street</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Road Maintenance</td>
-            <td class="px-6 py-4 whitespace-nowrap">${getStatusBadge('in-progress')}</td>
-            <td class="px-6 py-4 whitespace-nowrap">${getPriorityBadge('high')}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2 days ago</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <button onclick="viewReport('CV-2024-245')" class="text-blue-600 hover:text-blue-900 mr-3">View</button>
-                <button onclick="updateStatus('CV-2024-245')" class="text-green-600 hover:text-green-900">Update</button>
-            </td>
-        </tr>
-        <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">CV-2024-203</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Broken Street Light</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Street Lighting</td>
-            <td class="px-6 py-4 whitespace-nowrap">${getStatusBadge('resolved')}</td>
-            <td class="px-6 py-4 whitespace-nowrap">${getPriorityBadge('medium')}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1 week ago</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <button onclick="viewReport('CV-2024-203')" class="text-blue-600 hover:text-blue-900 mr-3">View</button>
-                <button onclick="updateStatus('CV-2024-203')" class="text-green-600 hover:text-green-900">Update</button>
-            </td>
-        </tr>
+        <tbody>
+            <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CV-2024-123</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Pothole on MG Road</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Priya Sharma</td>
+                <td class="px-6 py-4 whitespace-nowrap">${getStatusBadge('in-progress')}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${getPriorityBadge('high')}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2024-01-15</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button onclick="viewReport('CV-2024-123')" class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                    <button onclick="updateStatus('CV-2024-123')" class="text-green-600 hover:text-green-900">Update</button>
+                </td>
+            </tr>
+        </tbody>
     `;
 }
 
@@ -1147,6 +1216,7 @@ function initializePage() {
     
     // Initialize common functionality
     initSmoothScrolling();
+    updateHeaderButtons();
     
     // Page-specific initialization
     if (pathname.includes('index.html') || pathname === '/' || pathname === '') {
@@ -1195,6 +1265,23 @@ function initHomePage() {
     if (statsSection) {
         observer.observe(statsSection.closest('.grid'));
     }
+    
+    // Set up modal handlers
+    const loginModal = document.getElementById('login-modal');
+    if (loginModal) {
+        // Close modal when clicking outside
+        loginModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Set up form handler
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', handleLogin);
+        }
+    }
 }
 
 function initGetStartedPage() {
@@ -1218,6 +1305,9 @@ function initGetStartedPage() {
     if (signupForm) {
         signupForm.addEventListener('submit', handleSignup);
     }
+    
+    // Initialize the default tab
+    switchTab('login');
 }
 
 function initCitizenDashboard() {
@@ -1262,96 +1352,89 @@ function initReportPage() {
             reportForm.addEventListener('submit', handleReportSubmission);
         }
         
+        // Set up location input handler
+        const locationInput = document.getElementById('location');
+        if (locationInput) {
+            locationInput.addEventListener('input', handleLocationInput);
+        }
+        
         // Set up image upload handler
         const imageUpload = document.getElementById('imageUpload');
         if (imageUpload) {
             imageUpload.addEventListener('change', handleImageUpload);
         }
+        
+        // Close success modal when clicking outside
+        const successModal = document.getElementById('successModal');
+        if (successModal) {
+            successModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSuccessModal();
+                }
+            });
+        }
+    }
+}
+
+function initReportPage() {
+    if (checkAuth()) {
+        updateStepDisplay();
+        
+        // Set up form handler
+        const reportForm = document.getElementById('reportForm');
+        if (reportForm) {
+            reportForm.addEventListener('submit', handleReportSubmission);
+        }
+        
+        // Set up location input handler - already handled by oninput in HTML
+        
+        // Set up image upload handler
+        const imageUpload = document.getElementById('imageUpload');
+        if (imageUpload) {
+            imageUpload.addEventListener('change', handleImageUpload);
+        }
+        
+        // Close success modal when clicking outside
+        const successModal = document.getElementById('successModal');
+        if (successModal) {
+            successModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSuccessModal();
+                }
+            });
+        }
+        
+        // Initialize showMapButton variable for this page
+        showMapButton = false;
     }
 }
 
 function initAboutPage() {
-    // Set up intersection observer for counter animation
-    const observerOptions = {
-        threshold: 0.5
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounters();
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-    
-    // Observe the impact section
-    const counterElement = document.querySelector('.counter');
-    if (counterElement) {
-        const impactSection = counterElement.closest('section');
-        if (impactSection) {
-            observer.observe(impactSection);
-        }
+    // Add any about page specific functionality here
+}
+
+function closeSuccessModal() {
+    const modal = document.getElementById('successModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
     }
 }
 
 function initContactPage() {
+    // Set up contact form handler
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', handleContactSubmission);
     }
-}
-
-// Main page initialization function
-function initializePage() {
-    // Update header buttons based on login status
-    updateHeaderButtons();
     
-    // Page-specific initialization
-    const currentPath = window.location.pathname;
-    
-    if (currentPath.includes('index.html') || currentPath === '/') {
-        initHomePage();
-    } else if (currentPath.includes('aboutus.html')) {
-        initAboutPage();
-    } else if (currentPath.includes('contactus.html')) {
-        initContactPage();
-    } else if (currentPath.includes('getstarted.html')) {
-        initGetStartedPage();
-    } else if (currentPath.includes('citizen.html')) {
-        initCitizenDashboard();
-    } else if (currentPath.includes('admin.html')) {
-        initAdminDashboard();
-    } else if (currentPath.includes('report.html')) {
-        initReportPage();
-    }
-}
-
-// Home page specific initialization
-function initHomePage() {
-    // Initialize counter animation
-    initComplaintTypesScroll();
-    
-    // Set up intersection observer for counter animation
-    const observerOptions = {
-        threshold: 0.5
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounters();
-                observer.unobserve(entry.target);
+    // Close success modal when clicking outside
+    const successModal = document.getElementById('successModal');
+    if (successModal) {
+        successModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSuccessModal();
             }
         });
-    }, observerOptions);
-    
-    // Observe the stats section
-    const counterElement = document.querySelector('.counter');
-    if (counterElement) {
-        const statsSection = counterElement.closest('section');
-        if (statsSection) {
-            observer.observe(statsSection);
-        }
     }
 }
