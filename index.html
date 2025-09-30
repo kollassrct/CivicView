@@ -8,26 +8,26 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50/20 via-background to-green-50/20">
+<body class="min-h-screen bg-gradient-to-br from-blue-50/30 via-white/50 to-green-50/30">
     <!-- Header -->
-    <header class="bg-white/80 border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm">
+    <header class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo Section -->
                 <button onclick="setCurrentPage('home')" class="flex items-center space-x-4 group" aria-label="CIVICVIEW Home">
                     <div class="w-12 h-12 rounded-[20px] flex items-center justify-center shadow-sm group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
                         <img src="./assets/logo.png" alt="CIVICVIEW" class="h-8 w-8" />
-
                     </div>
-                    <span class="text-2xl tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                    <span class="text-2xl font-bold tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors duration-300 font-acme">
                         CIVICVIEW
                     </span>
                 </button>
                 
                 <!-- Navigation -->
                 <nav class="hidden md:flex items-center space-x-2">
-                    <button onclick="setCurrentPage('home')" class="px-6 py-3 rounded-lg transition-all duration-300 text-blue-600 bg-blue-50 shadow-sm" aria-current="page">
+                    <button onclick="setCurrentPage('home')" class="px-6 py-3 rounded-lg transition-all duration-300 text-blue-600 bg-blue-50/70 shadow-sm font-medium" aria-current="page">
                         Home
                     </button>
                     <button onclick="setCurrentPage('about')" class="px-6 py-3 rounded-lg transition-all duration-300 text-gray-600 hover:text-gray-900 hover:bg-gray-50">
@@ -49,7 +49,7 @@
                     </button>
                     
                     <!-- Get Started Button (shown when not logged in) -->
-                    <button id="get-started-btn" onclick="redirectToGetStarted()" class="ml-6 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white shadow-sm hover:shadow-md transition-all duration-300 px-6 py-3 rounded-lg">
+                    <button id="get-started-btn" onclick="redirectToGetStarted()" class="ml-6 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white shadow-sm hover:shadow-md transition-all duration-300 px-6 py-3 rounded-lg font-medium">
                         Get started
                     </button>
                 </nav>
@@ -79,16 +79,17 @@
         <!-- Hero Section -->
         <section class="pt-20 pb-24 px-6 lg:px-8 relative overflow-hidden">
             <!-- Background Elements -->
-            <div class="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-background to-green-50/40"></div>
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-100/20 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-green-100/20 rounded-full blur-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white/80 to-green-50/50"></div>
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-200/30 to-blue-100/30 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-green-200/30 to-green-100/30 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-blue-100/20 to-green-100/20 rounded-full blur-2xl"></div>
             
             <div class="max-w-6xl mx-auto relative">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
                     <!-- Left Content -->
                     <div class="space-y-8 slide-left">
                         <div class="space-y-6">
-                            <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-medium border border-blue-200">
+                            <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50/70 text-blue-700 rounded-full text-sm font-medium border border-blue-200/50">
                                 <i data-lucide="map-pin" class="w-4 h-4"></i>
                                 Making Indian Cities Better Together
                             </div>
@@ -109,12 +110,12 @@
                         
                         <!-- CTA Buttons -->
                         <div class="flex flex-col sm:flex-row gap-4">
-                            <button onclick="handleReportIssue()" class="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-4 text-lg rounded-xl group">
+                            <button onclick="handleReportIssue()" class="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-4 text-lg rounded-xl group font-medium">
                                 Report an Issue
                                 <i data-lucide="arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform inline-block"></i>
                             </button>
                             
-                            <button onclick="redirectToGetStarted()" class="border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-300 px-8 py-4 text-lg rounded-xl group">
+                            <button onclick="redirectToGetStarted()" class="border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-300 px-8 py-4 text-lg rounded-xl group font-medium">
                                 <i data-lucide="play" class="mr-2 w-5 h-5 group-hover:scale-110 transition-transform inline-block"></i>
                                 Get Started
                             </button>
@@ -209,7 +210,7 @@
                                     </div>
                                     
                                     <div class="space-y-6">
-                                        <h2 class="text-4xl lg:text-5xl tracking-tight text-gray-900">
+                                        <h2 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900">
                                             See an issue in your ward?
                                         </h2>
                                         
@@ -222,12 +223,12 @@
 
                                 <!-- Action Buttons -->
                                 <div class="flex flex-col sm:flex-row gap-4">
-                                    <button onclick="handleReportIssue()" class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white group shadow-sm hover:shadow-lg transition-all duration-300 px-8 py-6 rounded-xl">
+                                    <button onclick="handleReportIssue()" class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white group shadow-sm hover:shadow-lg transition-all duration-300 px-8 py-6 rounded-xl font-medium">
                                         Report an Issue Now
                                         <i data-lucide="arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform inline-block"></i>
                                     </button>
                                     
-                                    <button class="border border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-6 rounded-xl">
+                                    <button onclick="setCurrentPage('about')" class="border border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-6 rounded-xl font-medium">
                                         Learn More
                                     </button>
                                 </div>
@@ -295,7 +296,7 @@
             <div class="max-w-6xl mx-auto px-6 lg:px-8">
                 <!-- Header -->
                 <div class="text-center mb-12">
-                    <div class="inline-flex items-center px-4 py-2 bg-blue-50 rounded-full border border-blue-200 mb-6">
+                    <div class="inline-flex items-center px-4 py-2 bg-blue-50/70 rounded-full border border-blue-200/50 mb-6">
                         <span class="text-sm text-blue-700 font-medium">Issue Categories</span>
                     </div>
                     <h2 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 mb-6">
@@ -401,77 +402,186 @@
                             </div>
                         </div>
 
-                        <!-- Add more complaint type cards as needed -->
+                        <div class="group hover:shadow-xl transition-all duration-300 cursor-pointer border-gray-200 hover:border-blue-300 hover:-translate-y-2 bg-white flex-shrink-0 w-80 rounded-2xl border p-8">
+                            <div class="flex items-start justify-between mb-6">
+                                <div class="w-16 h-16 rounded-2xl bg-purple-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                    <i data-lucide="lightbulb" class="w-8 h-8 text-purple-600"></i>
+                                </div>
+                                <span class="bg-gray-100 text-gray-600 hover:bg-gray-200 px-3 py-1 rounded-lg text-sm">124 reports</span>
+                            </div>
+                            <div class="space-y-4 mb-6">
+                                <h3 class="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                                    Street lighting
+                                </h3>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Report broken or insufficient street lighting
+                                </p>
+                            </div>
+                            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                <span class="text-sm text-gray-500 group-hover:text-blue-600 transition-colors duration-300">
+                                    Click to report this issue
+                                </span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300"></i>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Scroll Indicators -->
                     <div class="flex justify-center mt-8 space-x-2">
-                        <div class="w-2 h-2 rounded-full bg-gray-300 transition-colors duration-300"></div>
+                        <div class="w-2 h-2 rounded-full bg-blue-600 transition-colors duration-300"></div>
                         <div class="w-2 h-2 rounded-full bg-gray-300 transition-colors duration-300"></div>
                         <div class="w-2 h-2 rounded-full bg-gray-300 transition-colors duration-300"></div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- Bottom CTA -->
-                <div class="text-center mt-12">
-                    <p class="text-gray-600 mb-4">
-                        Don't see your issue type? You can still report it under "Other civic issues"
+        <!-- Get Started Section -->
+        <section id="get-started" class="py-16 lg:py-20 bg-gradient-to-br from-blue-50/20 to-green-50/20">
+            <div class="max-w-6xl mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <div class="inline-flex items-center px-4 py-2 bg-green-50/70 rounded-full border border-green-200/50 mb-6">
+                        <span class="text-sm text-green-700 font-medium">Get Started</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 mb-6">
+                        Join CIVICVIEW Today
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        Choose your portal and start making a difference in your community.
                     </p>
-                    <div class="inline-flex items-center px-6 py-3 bg-green-50 rounded-full border border-green-200">
-                        <div class="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-                        <span class="text-sm text-green-700 font-medium">All reports reviewed within 24 hours</span>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Citizen Portal -->
+                    <div class="portal-card bg-white rounded-2xl p-8 text-center border-2 border-transparent hover:border-blue-300 cursor-pointer transition-all duration-300" onclick="showPortal('citizen')">
+                        <div class="w-20 h-20 bg-blue-100 rounded-2xl mx-auto mb-6 flex items-center justify-center">
+                            <i data-lucide="user" class="w-10 h-10 text-blue-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Citizen Portal</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Report civic issues, track progress, and help improve your neighborhood infrastructure.
+                        </p>
+                        <button class="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-6 py-3 rounded-lg w-full transition-all duration-300 font-medium">
+                            Get Started as Citizen
+                        </button>
+                    </div>
+
+                    <!-- Admin Portal -->
+                    <div class="portal-card bg-white rounded-2xl p-8 text-center border-2 border-transparent hover:border-green-300 cursor-pointer transition-all duration-300" onclick="showPortal('admin')">
+                        <div class="w-20 h-20 bg-green-100 rounded-2xl mx-auto mb-6 flex items-center justify-center">
+                            <i data-lucide="shield" class="w-10 h-10 text-green-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Admin Portal</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Manage reported issues, coordinate responses, and track resolution progress.
+                        </p>
+                        <button class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg w-full transition-all duration-300 font-medium">
+                            Get Started as Admin
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Login Modal Template -->
+                <div id="login-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <div class="p-8">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 id="modal-title" class="text-2xl font-bold text-gray-900"></h3>
+                                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                    <i data-lucide="x" class="w-6 h-6"></i>
+                                </button>
+                            </div>
+                            
+                            <form id="login-form" class="space-y-6">
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                    <input type="email" id="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter your email">
+                                </div>
+                                
+                                <div>
+                                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                    <input type="password" id="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter your password">
+                                </div>
+                                
+                                <button type="submit" class="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-6 py-3 rounded-lg w-full transition-all duration-300 font-medium">
+                                    Sign In
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Recent Issues -->
-        <section class="py-16 bg-white/50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section class="py-16 lg:py-20 bg-blue-50/30">
+            <div class="max-w-6xl mx-auto px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        Recent Community Reports
+                    <div class="inline-flex items-center px-4 py-2 bg-blue-50/70 rounded-full border border-blue-200/50 mb-6">
+                        <span class="text-sm text-blue-700 font-medium">Community Updates</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 mb-6">
+                        Recent Issues Reported
                     </h2>
-                    <p class="text-lg text-gray-600">
-                        See how citizens across India are making a difference
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        See what your community has been reporting and track the progress of civic improvements.
                     </p>
                 </div>
-                
+
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">Resolved</span>
-                            <span class="text-gray-500 text-sm">2 days ago</span>
+                    <!-- Issue Card 1 -->
+                    <div class="bg-white rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="construction" class="w-6 h-6 text-blue-600"></i>
+                            </div>
+                            <span class="status-in-progress px-3 py-1 rounded-full text-sm font-medium">In Progress</span>
                         </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Pothole fixed on MG Road</h3>
-                        <p class="text-gray-600 text-sm mb-4">Bangalore, Karnataka</p>
-                        <p class="text-gray-700 text-sm">Large pothole causing traffic issues has been successfully repaired by BBMP.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Pothole on MG Road</h3>
+                        <p class="text-gray-600 text-sm mb-4">Large pothole causing traffic issues near City Mall junction.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>2 days ago</span>
+                            <span>Bandra West, Mumbai</span>
+                        </div>
                     </div>
-                    
-                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">In Progress</span>
-                            <span class="text-gray-500 text-sm">1 day ago</span>
+
+                    <!-- Issue Card 2 -->
+                    <div class="bg-white rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="lightbulb" class="w-6 h-6 text-green-600"></i>
+                            </div>
+                            <span class="status-resolved px-3 py-1 rounded-full text-sm font-medium">Resolved</span>
                         </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Streetlight replacement</h3>
-                        <p class="text-gray-600 text-sm mb-4">Pune, Maharashtra</p>
-                        <p class="text-gray-700 text-sm">Non-functional streetlights are being replaced by the municipal corporation.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Street Light Not Working</h3>
+                        <p class="text-gray-600 text-sm mb-4">Multiple street lights out on residential street creating safety concerns.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>5 days ago</span>
+                            <span>Koramangala, Bangalore</span>
+                        </div>
                     </div>
-                    
-                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded-full">Reported</span>
-                            <span class="text-gray-500 text-sm">3 hours ago</span>
+
+                    <!-- Issue Card 3 -->
+                    <div class="bg-white rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="trash-2" class="w-6 h-6 text-orange-600"></i>
+                            </div>
+                            <span class="status-reported px-3 py-1 rounded-full text-sm font-medium">Reported</span>
                         </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Overflowing drainage</h3>
-                        <p class="text-gray-600 text-sm mb-4">Mumbai, Maharashtra</p>
-                        <p class="text-gray-700 text-sm">Drainage system overflow causing waterlogging during monsoon season.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Garbage Overflow</h3>
+                        <p class="text-gray-600 text-sm mb-4">Garbage bin overflowing for several days in residential area.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>1 day ago</span>
+                            <span>Connaught Place, Delhi</span>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="text-center mt-8">
-                    <button onclick="handleReportIssue()" class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-200">
+
+                <div class="text-center mt-12">
+                    <button onclick="handleReportIssue()" class="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group font-medium">
                         Report Your Issue
+                        <i data-lucide="arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform inline-block"></i>
                     </button>
                 </div>
             </div>
@@ -479,45 +589,59 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white">
-        <div class="max-w-6xl mx-auto px-6 py-16">
-            <div class="grid md:grid-cols-4 gap-12">
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Brand Section -->
                 <div class="md:col-span-2">
                     <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-500 rounded-2xl flex items-center justify-center">
-                            <span class="text-white text-lg font-bold">CV</span>
-                        </div>
-                        <span class="text-2xl text-white font-bold">CIVICVIEW</span>
+                        <div class="w-12 h-12 rounded-[20px] flex items-center justify-center shadow-sm group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <img src="./assets/logo.png" alt="CIVICVIEW" class="h-8 w-8" />
                     </div>
-                    <p class="text-gray-400 mb-6 max-w-md leading-relaxed">
-                        Empowering Indian communities through technology. Making civic engagement simple, 
-                        transparent, and effective for every citizen across India.
+                        <span class="text-2xl font-bold tracking-tight font-acme">CIVICVIEW</span>
+                    </div>
+                    <p class="text-gray-300 max-w-md leading-relaxed mb-6">
+                        Empowering Indian citizens to report civic issues and create positive change in their communities through technology-driven civic engagement.
                     </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                    </div>
                 </div>
 
+                <!-- Quick Links -->
                 <div>
-                    <h4 class="text-white mb-6 font-semibold">Quick Links</h4>
-                    <ul class="space-y-3">
-                        <li><button onclick="setCurrentPage('home')" class="text-gray-400 hover:text-white transition-colors">Home</button></li>
-                        <li><button onclick="setCurrentPage('about')" class="text-gray-400 hover:text-white transition-colors">About Us</button></li>
-                        <li><button onclick="setCurrentPage('contact')" class="text-gray-400 hover:text-white transition-colors">Contact Us</button></li>
-                        <li><button onclick="redirectToGetStarted()" class="text-gray-400 hover:text-white transition-colors">User Portal</button></li>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><button onclick="setCurrentPage('home')" class="text-gray-300 hover:text-white transition-colors">Home</button></li>
+                        <li><button onclick="setCurrentPage('about')" class="text-gray-300 hover:text-white transition-colors">About Us</button></li>
+                        <li><button onclick="setCurrentPage('contact')" class="text-gray-300 hover:text-white transition-colors">Contact Us</button></li>
+                        <li><button onclick="redirectToGetStarted()" class="text-gray-300 hover:text-white transition-colors">Get Started</button></li>
                     </ul>
                 </div>
 
+                <!-- Support -->
                 <div>
-                    <h4 class="text-white mb-6 font-semibold">Contact Info</h4>
-                    <div class="space-y-3">
-                        <p class="text-gray-400">support@civicview.in</p>
-                        <p class="text-gray-400">+91 80 4567 8900</p>
-                        <p class="text-gray-400">Mon-Fri 9AM-6PM IST</p>
-                    </div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mailto:help@civicview.in" class="text-gray-300 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="mailto:support@civicview.in" class="text-gray-300 hover:text-white transition-colors">Support</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+            <div class="border-t border-gray-700 pt-8 mt-12 text-center">
                 <p class="text-gray-400">
-                    © 2024 CIVICVIEW. All rights reserved. | Privacy Policy | Terms of Service
+                    © 2024 CIVICVIEW. All rights reserved. Making Indian cities better, together.
                 </p>
             </div>
         </div>
